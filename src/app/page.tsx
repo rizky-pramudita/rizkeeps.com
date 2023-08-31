@@ -69,10 +69,15 @@ export default async function Home() {
       <p className='text-center w-[80%] sm:w-[60%] text-sm sm:text-2xl md:text-3xl font-thin text-greytext'>I Love the process of creating a solution, specifically with digital product. Mainly, I do it by code as a software engineer, and other times I analyze it and do it with design.</p>
 
       <p className='font-bold text-yellow text-sm sm:text-lg opacity-60 py-6'>Tech, Tools, Frameworks</p>
-      <div className="flex flex-wrap w-[50%] opacity-60 gap-6 justify-center">
+      <div className="flex flex-wrap w-[50%] gap-6 justify-center">
         {
           icons.map((icon, index) => (
-            <img className='justify-center w-[20px] sm:w-max' src={icon.url}/>
+          <div className='group relative flex justify-center'>
+          <img className='justify-center w-[20px] sm:w-max opacity-60' src={icon.url}/>
+          <div className="flex top-12 items-center justify-center absolute hidden bg-greycard group-hover:block text-white p-1 rounded-sm text-xs font-bold transition-opacity">
+          <p>{icon.name}</p>
+          </div>
+          </div>
           ))
         }
       </div>
