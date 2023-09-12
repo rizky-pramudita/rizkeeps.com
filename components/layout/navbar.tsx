@@ -15,8 +15,7 @@ export default function Navbars() {
       </label>
       <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow rounded-box w-52">
         <li><Link href='/' className={currentRoute === '/' ? 'bg-grey px-4 py-2 rounded-lg text-yellow font-bold' : 'text-white font-regular px-4 py-2'}>home</Link></li>
-        <li><Link href='/portfolio' className={currentRoute === '/portfolio' ? 'bg-grey px-4 py-2 rounded-lg text-yellow font-bold' : 'text-white font-regular px-4 py-2'}>portfolio</Link></li>
-        <li><Link href='/stories' className={currentRoute === '/stories' ? 'bg-grey px-4 py-2 rounded-lg text-yellow font-bold' : 'text-white font-regular px-4 py-2'}>stories</Link></li>
+        <li><Link href='/thoughts' className={currentRoute === '/thoughts' ? 'bg-grey px-4 py-2 rounded-lg text-yellow font-bold' : 'text-white font-regular px-4 py-2'}>thoughts</Link></li>
         <li><Link href='/about' className={currentRoute === '/about' ? 'bg-grey px-4 py-2 rounded-lg text-yellow font-bold' : 'text-white font-regular px-4 py-2'}>about</Link></li>
       </ul>
     </div>
@@ -25,8 +24,7 @@ export default function Navbars() {
   <div className="navbar-center hidden lg:flex">
     <ul className="menu menu-horizontal px-1 gap-8">
         <li><Link href='/' className={currentRoute === '/' ? 'bg-grey px-4 py-2 rounded-lg text-yellow font-bold' : 'text-white font-regular px-4 py-2'}>home</Link></li>
-        <li><Link href='/portfolio' className={currentRoute === '/portfolio' ? 'bg-grey px-4 py-2 rounded-lg text-yellow font-bold' : 'text-white font-regular px-4 py-2'}>portfolio</Link></li>
-        <li><Link href='/stories' className={currentRoute === '/stories' ? 'bg-grey px-4 py-2 rounded-lg text-yellow font-bold' : 'text-white font-regular px-4 py-2'}>stories</Link></li>
+        <li><Link href='/thoughts' className={currentRoute === '/thoughts' ? 'bg-grey px-4 py-2 rounded-lg text-yellow font-bold' : 'text-white font-regular px-4 py-2'}>thoughts</Link></li>
         <li><Link href='/about' className={currentRoute === '/about' ? 'bg-grey px-4 py-2 rounded-lg text-yellow font-bold' : 'text-white font-regular px-4 py-2'}>about</Link></li>
     </ul>
   </div>

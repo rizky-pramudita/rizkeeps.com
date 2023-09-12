@@ -13,6 +13,11 @@ module.exports = {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
         'gradient-conic':
           'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
+      }, 
+      fontSize: {
+        'sml': '0.5em',
+        '7xl': '5rem', // Custom text size class
+        '8xl': '6rem', // Another custom text size class
       },
       colors: {
         'blackbg': '#161616',
@@ -20,7 +25,8 @@ module.exports = {
         'greytext': '#BEBEBE',
         'yellow': '#FFD446',
         'greycard': '#3C3C3C',
-        'greyline' : '#777777'
+        'greyline' : '#777777',
+        'pink': '#F178B6'
       }
     },
   },
