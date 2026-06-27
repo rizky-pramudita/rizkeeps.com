@@ -1,3 +1,37 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    color: #BEBEBE;
+    background-color: #161616;
+  }
+
+  h1, h2, h3, h4 {
+    color: #ffffff;
+    text-wrap: balance;
+  }
+
+  ::selection {
+    background-color: #FFD446;
+    color: #161616;
+  }
+
+  /* Visible keyboard focus for accessibility */
+  :focus-visible {
+    outline: 2px solid #FFD446;
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}

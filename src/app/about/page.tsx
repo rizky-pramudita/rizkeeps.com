@@ -1,19 +1,69 @@
-import Router from "next/router"
+import type { Metadata } from 'next'
+import Image from 'next/image'
+import { Container } from '@/components/ui/container'
+import { Section } from '@/components/ui/section'
+import { CtaBand } from '@/components/cta-band'
+import { TechStrip } from '@/components/tech-strip'
+import { getCachedSiteSettings } from '@/lib/cache'
+import { siteConfig } from '@/lib/site-config'
 
-export default function About() {
-    return (
-        <div className="flex flex-col px-1 md:px-36 items-center scroll-px-6 gap-4">
-            <div className="flex flex-row scroll-px-6 justify-center items-center">
-                <div className="flex flex-col hidden md:block">
-                    <img src="https://res.cloudinary.com/dg4b8sell/image/upload/v1679290175/rizkeeps.com/DSCF5352-removebg-preview_v5qpub.png" className=""></img>
-                </div>
-                <div className="flex flex-col gap-4 w-[70%] py-3 md:py-12">
-                    <h1 className="text-xl md:text-3xl py-3 md:py-6 font-semibold text-yellow italic">Rizky Pramudita Setyawan</h1>
-                    <h1 className="text-xl py-3 md:py-6 font-bold text-white">Software Engineering & Product Design</h1>
-                    <p className="text-md md:text-xl font-thin text-greytext w-[100%] md:w-[60%]">Mainly I do Software Engineering both backend and frontend, I also experienced in product design and research. </p>
-                    <p className="text-md md:text-xl font-thin text-greytext w-[100%] md:w-[60%]">Over these years I have experienced software development, UI/UX, and cloud engineering while continuously learning and growing in both field. I am a proud and confident multiple hat engineer. </p>
-                </div>
+export const metadata: Metadata = {
+  title: 'About',
+  description:
+    'Rizky Pramudita — a fullstack engineer and product designer who builds and ships web products end to end.',
+}
+
+export const dynamic = 'force-dynamic'
+
+export default async function AboutPage() {
+  const settings = await getCachedSiteSettings()
+
+  return (
+    <>
+      <Container className="py-16 sm:py-24">
+        <div className="grid items-start gap-12 md:grid-cols-[240px_1fr]">
+          {settings.photoUrl && (
+            <div className="mx-auto overflow-hidden rounded-2xl border border-border bg-surface">
+              <Image
+                src={settings.photoUrl}
+                alt="Portrait of Rizky Pramudita"
+                width={240}
+                height={300}
+                className="h-[300px] w-[240px] object-cover"
+                priority
+              />
             </div>
+          )}
+
+          <div>
+            <p className="mb-3 text-sm font-bold uppercase tracking-widest text-yellow/80">About</p>
+            <h1 className="text-3xl font-extrabold sm:text-5xl">{siteConfig.name}</h1>
+            <p className="mt-2 text-xl font-semibold text-white">
+              Software Engineering &amp; Product Design
+            </p>
+
+            <div className="mt-6 space-y-5 text-lg font-light leading-relaxed text-greytext">
+              <p>{settings.aboutSnippet}</p>
+              <p>
+                I work across the whole stack — frontend, backend, and cloud — and I care about
+                the product, not just the code. That means I can take a rough idea, shape it into
+                something usable, and ship it without needing a big team around me.
+              </p>
+              <p>
+                I’m a multiple-hat engineer by choice: comfortable owning UX decisions, building
+                the API, and getting it live. For clients, that’s one accountable person instead
+                of a handoff chain.
+              </p>
+            </div>
+          </div>
         </div>
-    )
+      </Container>
+
+      <Section eyebrow="Toolbox" title="What I work with" className="bg-surface/30">
+        <TechStrip />
+      </Section>
+
+      <CtaBand />
+    </>
+  )
 }
