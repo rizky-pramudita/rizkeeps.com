@@ -1,34 +1,63 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# rizkeeps.com
 
-## Getting Started
+Personal portfolio + freelance site. Fullstack **Next.js (App Router)** with a
+Postgres-backed CMS, a password-protected admin, and a contact form that emails you
+and logs every inquiry.
 
-First, run the development server:
+## Stack
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-```
+- **Next.js 13** App Router + TypeScript
+- **Tailwind CSS** (+ DaisyUI for the navbar)
+- **Postgres** via **Drizzle ORM**
+- **Redis** (ioredis) — admin sessions, contact rate limiting, content caching
+- **Resend** — contact-form email delivery
+- **Vercel Analytics**
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Setup
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+1. Install dependencies:
+   ```bash
+   npm install
+   ```
+2. Copy env and fill it in:
+   ```bash
+   cp .env.example .env
+   ```
+   Required: `DB_URL`, `REDIS_URL`, `ADMIN_PASSWORD`. For the contact email to send:
+   `RESEND_API_KEY` + `CONTACT_TO_EMAIL`.
+3. Create the database schema and seed placeholder content:
+   ```bash
+   npm run db:generate   # generate SQL migration from lib/db/schema.ts
+   npm run db:migrate    # apply it to DB_URL
+   npm run db:seed       # default site settings + 3 placeholder projects
+   ```
+   (`npm run db:push` is a quick alternative to generate+migrate during early dev.)
+4. Run it:
+   ```bash
+   npm run dev
+   ```
+   Site: http://localhost:3000 · Admin: http://localhost:3000/admin
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+## Editing content
 
-## Learn More
+- **Projects, site settings, inquiries** → the admin at `/admin` (log in with
+  `ADMIN_PASSWORD`). Images are pasted Cloudinary URLs (no upload step).
+- **Services & pricing, testimonials** → edited in code at
+  `content/services.ts` and `content/testimonials.ts`.
+- **Brand constants** (name, default SEO, fallback email) → `lib/site-config.ts`.
 
-To learn more about Next.js, take a look at the following resources:
+## Database scripts
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+| Script | What it does |
+|---|---|
+| `npm run db:generate` | Generate a migration from the schema |
+| `npm run db:migrate` | Apply migrations to `DB_URL` |
+| `npm run db:push` | Push schema directly (skip migration files) |
+| `npm run db:studio` | Open Drizzle Studio |
+| `npm run db:seed` | Seed defaults + placeholder projects |
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+## Deploy
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+Deploys to Vercel as a server-rendered app (not a static export — the DB, admin,
+and contact API need a server runtime). Set all `.env` values as Vercel project
+environment variables, and run the migrations against your production database.

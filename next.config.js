@@ -1,8 +1,17 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {}
+const nextConfig = {
+  experimental: {
+    // Required for Server Actions on Next.js 13.4.x.
+    serverActions: true,
+  },
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'res.cloudinary.com',
+      },
+    ],
+  },
+}
 
-module.exports = module.exports = {
-    experimental: {
-      serverActions: true,
-    },
-  }
+module.exports = nextConfig

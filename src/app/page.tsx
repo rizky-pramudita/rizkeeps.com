@@ -1,86 +1,146 @@
-'use server'
 import Image from 'next/image'
+import Link from 'next/link'
+import { Container } from '@/components/ui/container'
+import { Section } from '@/components/ui/section'
+import { ButtonLink } from '@/components/ui/button'
+import { Card } from '@/components/ui/card'
+import { Badge } from '@/components/ui/badge'
+import { ProjectCard } from '@/components/project-card'
+import { TechStrip } from '@/components/tech-strip'
+import { CtaBand } from '@/components/cta-band'
+import { getCachedPublishedProjects, getCachedSiteSettings } from '@/lib/cache'
+import { getServices, getTestimonials } from '@/lib/content'
+
+export const dynamic = 'force-dynamic'
 
 export default async function Home() {
-  const icons = [{
-    name: 'typescript',
-    url: 'https://res.cloudinary.com/dg4b8sell/image/upload/v1692363986/rizkeeps.com/icons/ts-icon_psqmnq.png'
-    },
-    {
-      name: 'tailwindcss',
-      url: 'https://res.cloudinary.com/dg4b8sell/image/upload/v1692363986/rizkeeps.com/icons/tailwind-icon_uhidsh.png'
-    },
-    {
-      name: 'html',
-      url: 'https://res.cloudinary.com/dg4b8sell/image/upload/v1692363985/rizkeeps.com/icons/html-icon_aoid5w.png'
-    },
-    {
-      name: 'mysql',
-      url: 'https://res.cloudinary.com/dg4b8sell/image/upload/v1692363985/rizkeeps.com/icons/mysql-icon_mgi3b5.png'
-    },
-    {
-      name: 'reactJS',
-      url: 'https://res.cloudinary.com/dg4b8sell/image/upload/v1692363986/rizkeeps.com/icons/react-icon_acdadf.png'
-    },
-    {
-      name: 'postgreesql',
-      url: 'https://res.cloudinary.com/dg4b8sell/image/upload/v1692363986/rizkeeps.com/icons/postgreesql-icon_gwhms5.png'
-    },
-    {
-      name: 'python',
-      url: 'https://res.cloudinary.com/dg4b8sell/image/upload/v1692363986/rizkeeps.com/icons/python-icon_jxp9vp.png'
-    },
-    {
-      name: 'nodeJS',
-      url: 'https://res.cloudinary.com/dg4b8sell/image/upload/v1692363985/rizkeeps.com/icons/node-icon_cdtkmf.png'
-    },
-    {
-      name: 'nextJS',
-      url: 'https://res.cloudinary.com/dg4b8sell/image/upload/v1692363985/rizkeeps.com/icons/next-icon_xjuiw8.png'
-    },
-    {
-      name: 'javascript',
-      url: 'https://res.cloudinary.com/dg4b8sell/image/upload/v1692363985/rizkeeps.com/icons/js-icon_srcsaf.png'
-    },
-    {
-      name: 'flask',
-      url: 'https://res.cloudinary.com/dg4b8sell/image/upload/v1692363984/rizkeeps.com/icons/flask-icon_cy83ay.png'
-    },
-    {
-      name: 'css',
-      url: 'https://res.cloudinary.com/dg4b8sell/image/upload/v1692363985/rizkeeps.com/icons/css-icon_slvryr.png'
-    },
-    {
-      name: 'GCP',
-      url: 'https://res.cloudinary.com/dg4b8sell/image/upload/v1692363984/rizkeeps.com/icons/gcp-icon_lsrnqr.png'
-    },
-    {
-      name: 'git',
-      url: 'https://res.cloudinary.com/dg4b8sell/image/upload/v1692363984/rizkeeps.com/icons/git-icon_tcljf3.png'
-    },
-    {
-      name: 'docker',
-      url: 'https://res.cloudinary.com/dg4b8sell/image/upload/v1692363984/rizkeeps.com/icons/docker-icon_dug4se.png'
-    }
-  ]
-  return (
-    <div className='flex flex-col justify-center items-center min-h-[90vh] gap-4'>
-      <h1 className='text-white text-2xl sm:text-4xl md:text-6xl font-extrabold text-center'>RIZKEEPS</h1>
-      <p className='text-center w-[80%] sm:w-[60%] text-sm sm:text-2xl md:text-3xl font-thin text-greytext'>I Love the process of creating a solution, specifically with digital product. Mainly, I do it by code as a software engineer, and other times I analyze it and do it with design.</p>
+  const [settings, projects] = await Promise.all([
+    getCachedSiteSettings(),
+    getCachedPublishedProjects(),
+  ])
+  const services = getServices()
+  const testimonials = getTestimonials()
+  const featured = projects.slice(0, 3)
 
-      <p className='font-bold text-yellow text-sm sm:text-lg opacity-60 py-6'>Tech, Tools, Frameworks</p>
-      <div className="flex flex-wrap w-[50%] gap-6 justify-center">
-        {
-          icons.map((icon, index) => (
-          <div className='group relative flex justify-center'>
-          <img className='justify-center w-[20px] sm:w-max opacity-60' src={icon.url}/>
-          <div className="flex top-12 items-center justify-center absolute hidden bg-greycard group-hover:block text-white p-1 rounded-sm text-xs font-bold transition-opacity">
-          <p>{icon.name}</p>
+  return (
+    <>
+      {/* Hero */}
+      <Container className="pt-16 pb-10 sm:pt-24">
+        <div className="mx-auto max-w-3xl text-center">
+          <Badge variant="yellow" className="mb-6">
+            Available for freelance projects
+          </Badge>
+          <h1 className="text-4xl font-extrabold leading-tight text-white sm:text-6xl">
+            {settings.heroHeadline}
+          </h1>
+          <p className="mx-auto mt-6 max-w-2xl text-lg font-light text-greytext sm:text-xl">
+            {settings.valueProp}
+          </p>
+          <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
+            <ButtonLink href="/contact" size="lg">
+              Start a project →
+            </ButtonLink>
+            <ButtonLink href="/work" variant="secondary" size="lg">
+              See my work
+            </ButtonLink>
           </div>
+        </div>
+
+        {/* Proof strip */}
+        <div className="mt-16 border-t border-border pt-10">
+          <p className="mb-6 text-center text-sm font-bold uppercase tracking-widest text-grey">
+            Tools &amp; frameworks I build with
+          </p>
+          <TechStrip />
+        </div>
+      </Container>
+
+      {/* Selected work */}
+      {featured.length > 0 && (
+        <Section
+          eyebrow="Selected work"
+          title="Problems solved, results shipped"
+          description="A few projects where I turned a real problem into a working product."
+        >
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {featured.map((p) => (
+              <ProjectCard key={p.id} project={p} />
+            ))}
           </div>
-          ))
-        }
-      </div>
-    </div>
+          <div className="mt-10">
+            <ButtonLink href="/work" variant="ghost">
+              View all work →
+            </ButtonLink>
+          </div>
+        </Section>
+      )}
+
+      {/* Services summary */}
+      <Section
+        eyebrow="Services"
+        title="How I can help"
+        description="Clear offerings with honest pricing — so you know what you’re getting."
+        className="bg-surface/30"
+      >
+        <div className="grid gap-6 md:grid-cols-3">
+          {services.map((s) => (
+            <Card key={s.slug} className="flex flex-col">
+              <h3 className="text-lg font-bold text-white">{s.name}</h3>
+              <p className="mt-2 flex-1 text-sm font-light text-greytext">{s.tagline}</p>
+              <p className="mt-4 text-sm font-bold text-yellow">
+                from ${s.priceFromUSD.toLocaleString()}
+              </p>
+            </Card>
+          ))}
+        </div>
+        <div className="mt-10">
+          <ButtonLink href="/services" variant="ghost">
+            See services &amp; pricing →
+          </ButtonLink>
+        </div>
+      </Section>
+
+      {/* About snippet */}
+      <Section>
+        <div className="grid items-center gap-10 md:grid-cols-[200px_1fr]">
+          {settings.photoUrl && (
+            <div className="mx-auto overflow-hidden rounded-2xl border border-border bg-surface">
+              <Image
+                src={settings.photoUrl}
+                alt="Portrait of Rizky"
+                width={200}
+                height={240}
+                className="h-60 w-[200px] object-cover"
+              />
+            </div>
+          )}
+          <div>
+            <p className="mb-3 text-sm font-bold uppercase tracking-widest text-yellow/80">About</p>
+            <p className="text-xl font-light leading-relaxed text-greytext">{settings.aboutSnippet}</p>
+            <div className="mt-6">
+              <Link href="/about" className="font-bold text-yellow hover:underline">
+                More about me →
+              </Link>
+            </div>
+          </div>
+        </div>
+      </Section>
+
+      {/* Testimonial */}
+      {testimonials.length > 0 && (
+        <Section className="py-10">
+          <figure className="mx-auto max-w-2xl text-center">
+            <blockquote className="text-2xl font-light italic text-white">
+              “{testimonials[0].quote}”
+            </blockquote>
+            <figcaption className="mt-4 text-sm text-greytext">
+              — {testimonials[0].author}, {testimonials[0].role}
+            </figcaption>
+          </figure>
+        </Section>
+      )}
+
+      <CtaBand />
+    </>
   )
 }
